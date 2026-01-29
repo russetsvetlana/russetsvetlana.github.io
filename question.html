@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SAY YES!!!</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+
+<body>
+<div class="center-text">
+    <h1>Will you be my valentine?</h1>
+    <img src="knife.gif" alt="i'll kill you if you say no" width="350" height="350">
+
+    <div class="button-row">
+        <button id="targetButton">Yes</button>
+        <button id="triggerButton">No</button>
+    </div>
+
+    
+    <div id="acceptForm" class="form-container">
+        <h2> YAAAAAY!!!!!!!! 💖</h2>
+        <form id="valentineForm">
+            <input type="email" id="email" placeholder="Enter MY email" required />
+            <textarea id="message" placeholder="Your sweet message for your cutie patootie lovey dovey wifey lifey 💌" required></textarea>
+            <button type="submit">Send Acceptance</button>
+        </form>
+    </div>
+
+    <div id="confirmation" class="confirmation">
+        <h2>💘 I sended it!!!💘</h2>
+        <p>💘😊 I'll see you on V-day bitch💘😊</p>
+    </div>
+
+
+   
+    <script>
+emailjs.init("g_1raoFt8sTTAwzrP");
+
+let clickCount = 0;
+const noBtn = document.getElementById('triggerButton');
+const yesBtn = document.getElementById('targetButton');
+const form = document.getElementById('acceptForm');
+const confirmation = document.getElementById('confirmation');
+const valentineForm = document.getElementById('valentineForm');
+
+noBtn.addEventListener('click', () => {
+    clickCount++;
+
+    const scale = 1 + clickCount * 0.35;
+    yesBtn.style.transform = `scale(${scale})`;
+
+    const x = Math.random() * 400 - 200;
+    const y = Math.random() * 300 - 150;
+    noBtn.style.transform = `translate(${x}px, ${y}px) scale(${1 - clickCount * 0.15})`;
+
+    if (clickCount >= 4) {
+        noBtn.style.display = "none";
+    }
+});
+
+
+yesBtn.addEventListener('click', () => {
+    form.classList.add('show');
+});
+
+
+valentineForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    emailjs.send(
+        "service_td3lgya",     
+        "template_tseejpm",    
+        {
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        }
+    )
+    .then((response) => {
+        console.log("EMAIL SENT!", response);
+
+        form.classList.remove('show');
+        confirmation.classList.add('show');
+    })
+    .catch((error) => {
+        console.error("EMAIL FAILED:", error);
+        alert("Email failed!! Check console.");
+    });
+});
+
+    </script>
+</div>
+</body>
+</html>
